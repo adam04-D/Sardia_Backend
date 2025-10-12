@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 // --- PUBLIC ROUTES (Accessible to Everyone) ---
 // =================================================================
 
-// ROUTE 1: GET all literary works for the main page
+// GET all literary works
 router.get('/', async (req, res) => {
     try {
         const works = await Work.find().sort({ createdAt: -1 });
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// ROUTE 2: GET a single literary work by ID for the detail page
+// GET a single literary work by ID
 router.get('/:id', async (req, res) => {
     try {
         const work = await Work.findById(req.params.id);
@@ -45,14 +45,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// ROUTE 3: LIKE a literary work
+// LIKE a literary work
 router.post('/:id/like', async (req, res) => {
     try {
-        const work = await Work.findByIdAndUpdate(
-            req.params.id,
-            { $inc: { likes: 1 } },
-            { new: true }
-        );
+        const work = await Work.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } }, { new: true });
         if (!work) return res.status(404).json({ message: 'Work not found' });
         res.json({ likes: work.likes });
     } catch (error) {
@@ -61,16 +57,13 @@ router.post('/:id/like', async (req, res) => {
     }
 });
 
-// ROUTE 4: ADD a new comment to a work
+// ADD a new comment to a work
 router.post('/:id/comments', async (req, res) => {
     try {
         const work = await Work.findById(req.params.id);
         if (!work) return res.status(404).json({ message: 'Work not found' });
 
-        const newComment = {
-            author: req.body.author,
-            text: req.body.text
-        };
+        const newComment = { author: req.body.author, text: req.body.text };
         work.comments.unshift(newComment);
         await work.save();
         res.status(201).json(work.comments[0]);
@@ -84,7 +77,7 @@ router.post('/:id/comments', async (req, res) => {
 // --- PROTECTED ADMIN ROUTES (Require Login) ---
 // =================================================================
 
-// ROUTE 5: POST a new literary work
+// POST a new literary work
 router.post('/', auth, upload.single('image'), async (req, res) => {
     try {
         const { title, excerpt, fullContent } = req.body;
@@ -94,7 +87,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         const newWork = new Work({
             title,
             excerpt,
-            fullContent: fullContent || "Full content goes here.",
+            fullContent, // Ensure this is saved
             imageUrl: req.file.path
         });
         const savedWork = await newWork.save();
@@ -105,12 +98,14 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     }
 });
 
-// ROUTE 6: UPDATE a literary work
+// UPDATE a literary work
 router.put('/:id', auth, async (req, res) => {
     try {
+        // THIS IS THE CRITICAL FIX: Ensure fullContent is destructured from the body
         const { title, excerpt, fullContent } = req.body;
         const updatedWork = await Work.findByIdAndUpdate(
             req.params.id,
+            // And ensure it's included in the update object
             { title, excerpt, fullContent },
             { new: true }
         );
@@ -122,7 +117,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-// ROUTE 7: DELETE a literary work
+// DELETE a literary work
 router.delete('/:id', auth, async (req, res) => {
     try {
         const work = await Work.findByIdAndDelete(req.params.id);

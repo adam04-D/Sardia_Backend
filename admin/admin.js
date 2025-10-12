@@ -6,7 +6,7 @@ if (!token) {
 }
 
 // --- ELEMENT SELECTORS ---
-const API_URL = 'http://localhost:5001/api/works';
+const API_URL = 'https://sardia-backend.onrender.com/api/works';
 const worksList = document.getElementById('works-list');
 const addWorkForm = document.getElementById('add-work-form');
 const titleInput = document.getElementById('title-input');
@@ -30,7 +30,7 @@ const fetchWorks = async () => {
             const workItem = document.createElement('li');
             workItem.className = 'work-item';
             workItem.innerHTML = `
-                <img src="http://localhost:5001/${work.imageUrl.replace(/\\/g, '/')}" alt="${work.title}" class="work-item-image">
+                <img src="https://sardia-backend.onrender.com/${work.imageUrl.replace(/\\/g, '/')}" alt="${work.title}" class="work-item-image">
                 <div class="work-item-content">
                     <h3>${work.title}</h3>
                     <p>${work.excerpt}</p>

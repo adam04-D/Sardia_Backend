@@ -11,7 +11,7 @@ loginForm.addEventListener('submit', async (event) => {
     errorMessage.style.display = 'none'; // Hide previous errors
 
     try {
-        const response = await fetch('http://localhost:5001/api/admin/login', {
+        const response = await fetch('https://sardia-backend.onrender.com/api/admin/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

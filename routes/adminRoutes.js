@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
         const payload = { admin: { id: admin.id } };
         jwt.sign(
             payload,
-            'yourSecretJwtKey', // Replace with a long, random secret key in your .env file
+            process.env.JWT_SECRET, // Replace with a long, random secret key in your .env file
             { expiresIn: '8h' },
             (err, token) => {
                 if (err) throw err;

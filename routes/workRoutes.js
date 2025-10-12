@@ -80,7 +80,6 @@ router.post('/:id/comments', async (req, res) => {
     }
 });
 
-
 // =================================================================
 // --- PROTECTED ADMIN ROUTES (Require Login) ---
 // =================================================================
@@ -95,7 +94,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         const newWork = new Work({
             title,
             excerpt,
-            fullContent: fullContent || "Full content goes here.", // Add fullContent
+            fullContent: fullContent || "Full content goes here.",
             imageUrl: req.file.path
         });
         const savedWork = await newWork.save();

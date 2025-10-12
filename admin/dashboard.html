@@ -25,9 +25,8 @@
 </head>
 <body>
     <script>
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            // If no token exists, redirect to the login page
+        // This version checks for the token without declaring a new variable
+        if (!localStorage.getItem('authToken')) {
             window.location.href = 'login.html';
         }
     </script>

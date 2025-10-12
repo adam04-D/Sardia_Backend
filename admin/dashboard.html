@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Sardia</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1, h2 { color: #5D4037; }
+        form { margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .btn { background-color: #8D6E63; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+        .btn:hover { background-color: #5D4037; }
+        #works-list { list-style: none; padding: 0; }
+        .work-item { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid #eee; }
+        .work-item:last-child { border-bottom: none; }
+        .work-item h3 { margin: 0 0 5px 0; }
+        .btn-edit, .btn-delete { margin-left: 10px; }
+        .work-item-image { width: 100px; height: 65px; object-fit: cover; border-radius: 4px; }
+        .work-item-content { flex-grow: 1; }
+    </style>
+</head>
+<body>
+    <script>
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            // If no token exists, redirect to the login page
+            window.location.href = 'login.html';
+        }
+    </script>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+            <h1>Admin Dashboard</h1>
+            <button id="logout-btn" class="btn">Logout</button> </div>
+
+        <section id="add-work">
+            <h2>Add New Work</h2>
+            <form id="add-work-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title-input">Title</label>
+                    <input type="text" id="title-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="image-input">Cover Image</label>
+                    <input type="file" id="image-input" name="image" accept="image/*" required>
+                </div>
+                 <div class="form-group">
+                    <label for="excerpt-input">Excerpt</label>
+                    <textarea id="excerpt-input" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="full-content-input">Full Content</label>
+                    <textarea id="full-content-input" rows="10" required></textarea>
+                </div>
+                <button type="submit" class="btn">Add Work</button>
+            </form>
+        </section>
+
+        <section id="manage-works">
+            <h2>Manage Existing Works</h2>
+            <ul id="works-list">
+                </ul>
+        </section>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

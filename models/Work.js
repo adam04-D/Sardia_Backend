@@ -27,16 +27,22 @@ const WorkSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    // --- THIS IS THE FIX ---
+    // The missing field is now added to the schema.
+    fullContent: {
+        type: String,
+        required: true
+    },
+    // ----------------------
     imageUrl: {
         type: String,
-        required: true // We will store the path to the uploaded image here
+        required: true
     },
     likes: {
         type: Number,
         default: 0
     },
-    // Comments will be an array of objects that follow the CommentSchema blueprint
-    comments: [CommentSchema], 
+    comments: [CommentSchema],
     createdAt: {
         type: Date,
         default: Date.now

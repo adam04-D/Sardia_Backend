@@ -97,15 +97,19 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     }
 });
 
-// UPDATE a literary work (handles text-only updates without deleting image)
+// In routes/workRoutes.js
+
+// UPDATE a literary work (Handles text-only updates without deleting image)
 router.put('/:id', auth, async (req, res) => {
     try {
         const { title, excerpt, fullContent } = req.body;
         const updatedFields = { title, excerpt, fullContent };
 
+        // Use the '$set' operator to only update the specified fields.
+        // This is the key: it will not touch other fields like 'imageUrl'.
         const updatedWork = await Work.findByIdAndUpdate(
             req.params.id,
-            { $set: updatedFields }, // Use $set to only update provided fields
+            { $set: updatedFields },
             { new: true }
         );
 

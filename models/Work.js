@@ -13,6 +13,11 @@ const CommentSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
     }
 });
 
@@ -48,5 +53,8 @@ const WorkSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
+// Text index for search across title, excerpt and fullContent
+WorkSchema.index({ title: 'text', excerpt: 'text', fullContent: 'text' });
 
 module.exports = mongoose.model('Work', WorkSchema);
